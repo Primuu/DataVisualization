@@ -69,8 +69,7 @@ string9 = "abcde"
 float9 = 5.8231
 hexadecimal9 = 1213
 
-
-print('\n', str(string9), float(float9), hex(hexadecimal9))
+print('\nstring - %(z1)s, float - %(z2)f, hexadecimal - %(z3)s' %{'z1':string9, 'z2':float9, 'z3':hex(hexadecimal9)})
 
 
 
