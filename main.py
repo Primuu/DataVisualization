@@ -90,3 +90,4 @@ import sys as system
 # hexadecimal9 = 0x121f3
 #
 # print('\nstring - %(z1)s, float - %(z2)f, hexadecimal - %(z3)x' %{'z1':string9, 'z2':float9, 'z3':hexadecimal9})
+#
