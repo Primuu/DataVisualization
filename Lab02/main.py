@@ -133,7 +133,7 @@ import sys as system
 # else:
 #     print("W porzadku")
 #
-
+#
 
 
 
