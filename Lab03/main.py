@@ -3,7 +3,7 @@ from ciagi import *
 from sys import *
 import random
 
-# 11.04
+# 11.03
 
 # Python comprehension
 # Example No1
@@ -157,11 +157,12 @@ import random
 #              "milk": "carton",
 #              "bread": "loaf",
 #              "apples": "kilograms",
-#              "ham": "decagrams"}
+#              "ham": "decagrams",
+#              "newspaper": "piece"}
 #
 # print(groceries)
 #
-# changed_groceries = {k: random.randrange(0, 30) for k, v in groceries.items()}
+# changed_groceries = [key for key, value in groceries.items() if value.count("piece")]
 # print(changed_groceries)
 
 # 4
@@ -192,16 +193,23 @@ import random
 
 # 6 ???????????????????????????????????????????
 
-# def product_seq(a1 = 1, b = 4, ile = 10):
-#     product = a1
-#     for x in range(ile):
-#         a2 = a1 * b
-#         product *= a2
-#         a1 = a2
-#     return product
+# def product_seq(a=1, b=4, ile=10):
+#     seq = []
+#     z = 0
+#     if ile <= 0:
+#         print("ile must be greater than or equal to 0")
+#         return 0
+#     elif ile == 1:
+#         return a * b
+#     else:
+#         while z != ile:
+#             a *= b
+#             seq.append(a)
+#             z += 1
+#             return seq
 #
 #
-# print(product_seq(2, 2, 10))
+# print(product_seq(1, 3, 11))
 
 # 7 ???????????????????????????????????????????
 
@@ -209,7 +217,7 @@ import random
 #     if len(a) == 0:
 #         return 0
 #     else:
-#         product = 1
+#         product = a[0]
 #         for x in a:
 #             product *= x
 #         return product
@@ -219,13 +227,6 @@ import random
 
 # 8
 
-# # shopping_list = {"eggs": 12.50,
-# #                  "milk": 2.59,
-# #                  "bread": 1.99,
-# #                  "apples": 3.99,
-# #                  "ham": 18.99}
-#
-#
 # def value_s(** m):
 #     quantity = 0
 #     worth = 0
