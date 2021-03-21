@@ -1,0 +1,1 @@
+['Bla bla bla bla\n', 'bla bla\n', 'la bla bla\n', 'blalala la la la\n', 'bla\n', '\n']['bla\n'][]
