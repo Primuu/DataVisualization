@@ -101,7 +101,7 @@ import random
 
 # 1
 
-# list1 = [random.randrange(0, 30) for x in range(10)]
+# list1 = [x for x in range(31)]
 # list1 = [x * 2 for x in list1]
 # task1file = open("Task1.txt", 'w')
 # task1file.writelines(str(list1))
@@ -109,7 +109,7 @@ import random
 
 # 2
 
-# task1file = task1file = open("Task1.txt", 'r')
+# task1file = open("Task1.txt", 'r')
 # lines1 = task1file.read()
 # task1file.close()
 # print(lines1)
