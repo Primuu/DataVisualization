@@ -343,21 +343,26 @@ from sys import *
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# 2 PROBLEM
+# 2
 
-#
+
 # class Square(Shapes):
 #
 #     def __init__(self, x):
 #         self.x = x
 #         self.y = x
 #
-#     def __add__(self, other):
-#         return self.x + 4 * self.x
+#     def __add__(self):
+#         new = self.x + 4 * self.x
+#         return new
+#
+#     def __str__(self):
+#         return "{}".format(self.x)
 #
 #
 # kwadrat = Square(5)
-# print(kwadrat.__add__(0))
+# kwadrat1 = Square(kwadrat.__add__())
+# print(kwadrat1)
 
 # 3
 
@@ -388,7 +393,8 @@ from sys import *
 # print(kwadratm.__le__(kwadratd))
 # print(kwadratd.__lt__(kwadratm))
 
-# 4 PROBLEM
+# 4
+
 
 # class Point:
 #
@@ -408,12 +414,17 @@ from sys import *
 # p4 = Point(4, 1)
 #
 # p1.update(1)
-# p2.update(1)
-# p3.update(1)
-# p4.update(1)
+# p2.update(3)
+# p3.update(6)
+# p4.update(8)
 #
 # print(p1.counter)
+# print("")
 # print(p2.counter)
+# print("")
+#
+# p3.counter.pop()
+# print(p1.counter)
 
 # 5
 
@@ -531,30 +542,40 @@ from sys import *
 # print(example1.__next__())
 # print(example1.__next__())
 
-# 8 PROBLEM
+# 8
 
 
-# class TylkoSamogloski:
+# class Samogloski:
 #
 #     def __init__(self, data):
 #         self.data = data
-#         self.index = len(data)
+#         self.index = -1
 #
 #     def __iter__(self):
 #         return self
 #
 #     def __next__(self):
-#         if self.data == str(self.data):
+#         if isinstance(self.data, str):
 #             if self.index == len(self.data) - 1:
 #                 raise StopIteration
-#             elif # # # #:
-#                 self.index += 1
+#             self.index = self.index + 1
+#             if self.data[self.index] in "aąeęiouy":
 #                 return self.data[self.index]
-#             else:
-#                 self.index += 1
 #         else:
-#             return None
-
+#             raise StopIteration
+#
+#
+#
+# lista = ["aaaa"]
+# napis = 'sprawdzamy działanie'
+# obiekt = Samogloski(napis)
+# obiekt1 = Samogloski(lista)
+#
+# for a in obiekt:
+#     print (a)
+#
+# for a in obiekt1:
+#     print(a)
 
 # 9
 
