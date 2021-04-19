@@ -29,7 +29,7 @@ print("\n", a.ndim)
 # tablica wielowymiarowa
 # w tym przypadku parametrem przekazywanym do funkcji
 # array jest obiekt, który zostanie skonwertowany na tablicę
-# np. pythonowa listwa
+# np. pythonowa lista
 e = np.array([np.arange(2), np.arange(2)])
 
 print("\n", e)
@@ -177,7 +177,7 @@ print("\n", y)
 
 # 1
 
-task_1 = np.arange(0, 80, 4)
+task_1 = np.arange(4, 81, 4)
 
 print(task_1)
 
@@ -189,13 +189,13 @@ task2_1 = task_2.astype('int32')
 # 3 PROBLEM
 
 def foo3 (n):
-        tablica = np.zeros(n * n)
-        tablica = tablica.astype('int64')
-        if n > 0:
-            tablica[1] = 2
-            for x in range(2, n * n, 1):
-                tablica[x] = tablica[x - 1] * 2
-        return tablica
+    tablica = np.zeros((n, n), dtype='int32')
+    i = 0
+    for x in range(n):
+        for y in range(n):
+            tablica[x][y] = 2 ** i
+            i += 1
+    return tablica
 
 
 print("\n", foo3(3))
@@ -211,12 +211,10 @@ print(foo4(2, 4))
 # 5
 
 def foo5 (length):
-    return np.arange(length, 0, -1)
+    return np.diag(range(length, 0, -1), 2)
 
 
-diag = np.diag(foo5(5), 2)
-
-print("\n", diag)
+print("\n", foo5(5))
 
 # 6
 
@@ -228,20 +226,46 @@ puzzle = np.array([['K', 'A', 'J', 'A', 'K'],
 
 print(puzzle)
 
-# 7 PROBLEM ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?
+# 7 PROBLEM
 
-# def foo7 (n):
-#     array = np.array([np.arange(n), np.arange(n)])
-#     return array
-#
-#
-# print(foo7(2))
-
-# 8 PROBLEM ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?
-
-# def foo8 (a, kierunek):
+def foo7 (n):
+    array = np.diag([2 for _ in range(n)])
+    for index in range(1, n):
+        vec = [2 + (2 * index) for _ in range(n - index)]
+        array += np.diag(vec, index)
+        array += np.diag(vec, -index)
+    return array
 
 
+print(foo7(10))
+
+# 8 PROBLEM
+
+def foo8 (tab, kierunek = 'poziomo'):
+    print(tab)
+    if kierunek == 'poziomo':
+        if tab.shape[0] % 2 != 0:
+            print("Tablica posiada nieparzysta liczbe wierszy.")
+            return
+        p1 = tab[0: int(tab.shape[0]/2),: ]
+        p2 = tab[int(tab.shape[0]/2):, :]
+        print("czesc 1")
+        print(p1)
+        print("czesc 2")
+        print(p2)
+    elif kierunek == "pionow":
+        if tab.shape[1] % 2 != 0:
+            print("Tablica posiada nieparzysta liczbe kolumn.")
+            return
+        p1 = tab[:, 0:int(tab.shape[1] / 2)]
+        p2 = tab[:, int(tab.shape[1] / 2):]
+        print("czesc 1")
+        print(p1)
+        print("czesc 2")
+        print(p2)
+
+
+foo8(np.arange(36).reshape((6, 6)), kierunek='pionowo')
 # 9
 
 # arithmetic sequence with a difference of 5
