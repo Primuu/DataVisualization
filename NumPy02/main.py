@@ -154,7 +154,7 @@ print(zad6)
 
 # 7
 
-e = zad5 + zad6
+e = np.add(zad5, zad6)
 print(e)
 
 # 8
@@ -185,6 +185,19 @@ print(zad10)
 zad10 = zad10.reshape(9, 9)
 zad10 = zad10.T
 print(zad10)
+
+#Zad10
+# macierz = np.arange(0,81,1).reshape(9,9)
+# print(macierz)
+#
+# macierz_1 = macierz.reshape(3,27)
+# print(macierz_1)
+# macierz_2 = macierz.reshape(27,3)
+# print(macierz_2)
+# macierz_3 = macierz.reshape(81,1)
+# print(macierz_3)
+# macierz_4 = macierz.ravel()
+# print(macierz_4)
 
 # 11
 
