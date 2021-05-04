@@ -239,7 +239,7 @@ def foo7 (n):
 
 print(foo7(10))
 
-# 8 PROBLEM
+# 8 PROBLEM   ...
 
 def foo8 (tab, kierunek = 'poziomo'):
     print(tab)
