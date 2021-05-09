@@ -106,9 +106,9 @@ print(df)
 
 # dfz = pd.read_csv('zamowienia.csv', header=0, sep=";",
 #                   decimal='.')
-# print(dfz)
+# # print(dfz)
 # group = dfz.groupby(['Sprzedawca']).agg({'idZamowienia': ['count']})
-# chart = group.plot.bar()
+# chart = group.plot.bar(figsize=(8, 8))
 # chart.set_ylabel(u"Ilość złożonych zamówień")
 # chart.set_xlabel(u"Sprzedawca")
 # chart.legend()
