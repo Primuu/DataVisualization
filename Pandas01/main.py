@@ -236,20 +236,36 @@ print(df[(df['Imie'] == "ADAM")])
 print('\n')
 # 2.3
 print(sum(df.Liczba))
+# print(df.agg({'Liczba': ['sum']}))
 print('\n')
 # 2.4
 print(sum(df.Liczba[((df['Rok'] >= 2005) & (df['Rok'] <= 2010))]))
+# print(df[(df.Rok > 2004) & (df.Rok < 2011 )].agg({'Liczba': ['sum']}))
 # 2.5
 print(sum(df.Liczba[((df['Rok'] == 2000) & (df['Plec'] == 'M'))]))
+# grupa = df[(df.Plec == 'M') & (df.Rok == 2000)].agg({'Liczba':['sum']})
 # 2.6
 for x in range(2000, 2018, 1):
     print("Rok ", x)
     print(df['Imie'][df['Liczba'] == max(df['Liczba'][((df['Rok'] == x) & (df['Plec'] == 'K'))])])
     print(df['Imie'][df['Liczba'] == max(df['Liczba'][((df['Rok'] == x) & (df['Plec'] == 'M'))])])
+
+# print(df.sort_values('Liczba', ascending=False).groupby(['Rok','Plec']).nth(0))
+# new_df = df.sort_values('Liczba', ascending=False).groupby(['Rok', 'Plec'])
+# for index, group in enumerate(new_df, start=1):
+#     print(f"{index} {group[0]}")
+#     print(f" {group[1].iloc[0]['Imie']}", end='')
+#     print(f" {group[1].iloc[0]['Liczba']}")
+
 print('\n')
-# 2.7 PROBLEM
-# print(df['Imie'][df['sum'] == max(df.groupby(['Imie']).agg({'Liczba': ['sum']})[(df['Plec'] == 'K')])])
-# print(df['Imie'][df['sum'] == max(df.groupby(['Imie']).agg({'Liczba': ['sum']})[(df['Plec'] == 'M')])])
+# 2.7
+print("Chlopiec")
+print(df[df['Plec'] == 'M'].groupby(['Imie']).agg({'Liczba':['sum']}).sort_values(('Liczba','sum'),
+                                                                                      ascending=False).iloc[0])
+print("Dziewczynka")
+print(df[df['Plec'] == 'K'].groupby(['Imie']).agg({'Liczba': ['sum']}).sort_values(('Liczba', 'sum'),
+                                                                                       ascending=False).iloc[0])
+
 print('\n')
 
 # 3
@@ -258,35 +274,24 @@ dfz = pd.read_csv('zamowienia.csv', header=0, sep=";",
 # 3.1
 print(pd.unique(dfz.Sprzedawca), '\n')
 # 3.2
+# print(dfz.sort_values(by='Utarg', ascending=False)['Utarg'][0:5])
 utarg_malejaca = dfz.Utarg.sort_values(ascending=False)
 print(utarg_malejaca[0:5], '\n')
 # 3.3
+# print(dfz.groupby(['Sprzedawca']).size())
 print(pd.value_counts(dfz.Sprzedawca), '\n')
 # 3.4
-print(dfz.groupby(['Kraj']).agg({'idZamowienia': ['count']}), '\n')
-# 3.5 PROBLEM
-
+print(dfz.groupby(['Kraj']).agg({'Utarg':['sum']}), '\n')
+# 3.5
+print(dfz[((dfz['Data zamowienia'] >= '2005-01-01') & (dfz['Data zamowienia'] <= '2005-12-31') &
+              (dfz['Kraj'] == 'Polska'))].agg({'Utarg':['sum']}))
 # 3.6
-dfz['Data zamowienia'] = pd.to_datetime(dfz['Data zamowienia'])
-start_date = pd.to_datetime('1/1/2004')
-end_date = pd.to_datetime('12/31/2004')
-print(np.average(dfz.Utarg[(dfz['Data zamowienia'] >= start_date) & (dfz['Data zamowienia'] <= end_date)]), '\n')
+print(dfz[((dfz['Data zamowienia'].str[:4] == '2004'))]['Utarg'].mean(), '\n')
 # 3.7
-dfz['Data zamowienia'] = pd.to_datetime(dfz['Data zamowienia'])
-start_date2004 = pd.to_datetime('1/1/2004')
-end_date2004 = pd.to_datetime('12/31/2004')
-start_date2005 = pd.to_datetime('1/1/2005')
-end_date2005 = pd.to_datetime('12/31/2005')
-dfz2004 = dfz.loc[(dfz['Data zamowienia'] >= start_date2004) & (dfz['Data zamowienia'] <= end_date2004)]
-dfz2005 = dfz.loc[(dfz['Data zamowienia'] >= start_date2005) & (dfz['Data zamowienia'] <= end_date2005)]
-print(dfz2004)
-dfz2004.to_csv('zamowienia_2004.csv', sep=';')
-print(dfz2005)
-dfz2005.to_csv('zamowienia_2005.csv', sep=';')
-
-
-
-
+rok_2004 = dfz[((dfz['Data zamowienia'].str[:4] == '2004'))]
+rok_2005 = dfz[((dfz['Data zamowienia'].str[:4] == '2005'))]
+rok_2004.to_csv("zamowienia_2004.csv", sep=';', index=False)
+rok_2005.to_csv("zamowienia_2005.csv", sep=';', index=False)
 
 
 
