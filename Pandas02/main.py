@@ -89,6 +89,7 @@ print(df)
 # chart.legend()
 # plt.title(u"Liczba urodzonych chłopców i dziewczynek")
 # plt.xticks(rotation=0)
+# plt.gcf().axes[0].yaxis.get_major_formatter().set_scientific(False)
 # plt.show()
 
 # 3
