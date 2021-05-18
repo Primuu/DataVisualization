@@ -228,23 +228,23 @@ import matplotlib.pyplot as plt
 
 # 1
 
-# x = np.arange(1, 20)
+# x = np.arange(1, 21, 1)
 # plt.plot(x, (1 / x), label="f(x)=1/x")
-# plt.axis([1, 20, 0, 1])
+# plt.axis([0, 20, 0, 1])
 # plt.xlabel('x')
 # plt.ylabel('f(x)')
-# plt.title("Zad 1")
+# plt.title("Wykres funkcji f(x) = 1/x dla x[1,20]")
 # plt.legend()
 # plt.show()
 
 # 2
 
-# x = np.arange(1, 20)
+# x = np.arange(1, 21, 1)
 # plt.plot(x, (1 / x), 'g>:', label="f(x)=1/x")
-# plt.axis([1, 20, 0, 1])
+# plt.axis([0, 20, 0, 1])
 # plt.xlabel('x')
 # plt.ylabel('f(x)')
-# plt.title("Zad 1")
+# plt.title("Wykres funkcji f(x) = 1/x dla x[1,20]")
 # plt.legend()
 # plt.show()
 
@@ -256,31 +256,33 @@ import matplotlib.pyplot as plt
 # plt.plot(x, s, 'r', label="sin(x)")
 # plt.plot(x, c, 'g', label="cos(x)")
 # plt.xlabel('x')
-# plt.ylabel('f(x)')
-# plt.title('Wykres sin(x) i cos(x)')
-# plt.legend()
+# plt.ylabel('sin(x) cos(x)')
+# plt.title('Wykres sin(x), cos(x)')
+# plt.legend(loc='upper right')
 # plt.show()
 
 # 4
 
 # x = np.arange(0, 30, 0.1)
-# s1 = np.sin(x)
-# s2 = np.sin(x)
-# plt.plot(x, 2+s1, 'blue', label="sin(x)")
-# plt.plot(x, -s2, 'orange', label="sin(x)")
+# s = np.sin(x)
+# plt.plot(x, 2+s, label="sin(x)")
+# plt.plot(x, -s, label="sin(x)")
 # plt.xlabel('x')
 # plt.ylabel('sin(x)')
 # plt.title('Wykres sin(x), sin(x)')
-# plt.legend()
+# plt.legend(loc='center left')
 # plt.show()
 
 # 5
 
-# data = pd.read_csv("iris.csv", )
+# data = pd.read_csv("iris.csv", sep=',', decimal='.')
 # df = pd.DataFrame(data)
 #
-# c = np.random.randint(0, 50, 50)
-# plt.scatter('sepal_length', 'sepal_width', c='c', s=abs(df['sepal_length'] - df['sepal_width']), data=df)
+# # przygotowanie wektora kolorow
+# colors = np.random.randint(0, 50, len(df.index))
+# # przygotowanie wektora z rozmiarami 'kropek' (mnożenie *5 opcjonalne)
+# scale = [np.abs(df['sepal_length'] - df['sepal_width']) * 5]
+# plt.scatter('sepal_length', 'sepal_width', c=colors, s=scale, data=df)
 # plt.xlabel('sepal_length')
 # plt.ylabel('sepal_width')
 # plt.show()
@@ -290,66 +292,79 @@ import matplotlib.pyplot as plt
 # zad6 = pd.ExcelFile('imiona.xlsx')
 # df = pd.read_excel(zad6, header=0)
 #
-# df['Rok'] = df['Rok'].astype(str)
-# df_chlopcy = df[(df['Plec'] == 'M')]
-# df_dziewczynki = df[(df['Plec'] == 'K')]
-#
 # # 6.1
 #
-# etykiety = ['Dziewczynki', 'Chlopcy']
-# wartosci = [sum(df.Liczba[(df['Plec'] == 'M')]), sum(df.Liczba[(df['Plec'] == 'K')])]
 # plt.subplot(1, 3, 1)
-# plt.bar(etykiety, wartosci)
+# grouped = df.groupby('Plec').agg({'Liczba': ['sum']}).unstack()
+# grouped.plot.bar(color=['r', 'g'])
 # plt.title('Wykres 1')
 # plt.ylabel('Ilosc narodzin')
 # plt.xlabel('Plec')
 #
-# # 6.2 PROBLEM
+# # 6.2
 #
-# wyk2_x_dz = df_dziewczynki['Rok']
-# wyk2_x_ch = df_chlopcy['Rok']
-# # chlopcy_rok = df_chlopcy.groupby(['Rok']).agg({'Liczba': ['sum']})
-# # dziewczynki_rok = df_dziewczynki.groupby(['Rok']).agg({'Liczba': ['sum']})
-# dziewczynki_rok = df_dziewczynki['Liczba']
-# chlopcy_rok = df_chlopcy['Liczba']
-#
-# # print(chlopcy_rok)
-# # print(dziewczynki_rok)
-#
+# # Jesli kazdy rok ma byc widoczny na wykresie:
+# # df['Rok'] = df['Rok'].astype(str)
 # plt.subplot(1, 3, 2)
-# plt.plot(wyk2_x_dz, dziewczynki_rok, 'r')
-# plt.plot(wyk2_x_ch, chlopcy_rok, 'b')
+# x = df['Rok'].unique()
+# kobiety = df[(df.Plec == 'K')].groupby('Rok').agg({'Liczba': ['sum']}).values
+# mezczyzni = df[(df.Plec == 'M')].groupby('Rok').agg({'Liczba': ['sum']}).values
+# plt.plot(x, kobiety, 'pink', label="Dziewczynki")
+# plt.plot(x, mezczyzni, 'yellow', label="Mezczyzni")
 # plt.title('Wykres 2')
 # plt.ylabel('Ilosc narodzin w danym roku')
 # plt.xlabel('Rok')
 #
-# # 6.3 PROBLEM
+# # 6.3
 #
-# suma_dz_rok = df.groupby(['Rok']).agg({'Liczba': ['sum']})
-# print(suma_dz_rok)
+# # bez funkcji flatten matplotlib wyrzuca wyjatek,
+# # ktory informuje nas, ze nie mozna przekazywac parametru
+# # jako tablicy wielowymiarowej, a w takiej postaci w tym przypadku
+# # zwracany jest wektor y, korzystamy wiec z flatten(),
+# # poznanej przy okazji omawiania biblioteki numpy
+# suma_dz_rok = df.groupby(['Rok']).agg({'Liczba': ['sum']}).values.flatten()
+# # print(suma_dz_rok)
+# # x = df['Rok'].unique()
 #
 # plt.subplot(1, 3, 3)
-# # plt.bar(suma_dz_rok['Rok'], suma_dz_rok['sum'], 'green')
+# plt.bar(x, suma_dz_rok)
 # plt.title('Wykres 3')
 # plt.ylabel('Laczna ilosc narodzin w danym roku')
 # plt.xlabel('Rok')
+#
 # plt.show()
 
 # 7
 
-# df = pd.read_csv('zamowienia.csv', header=0, sep=';', decimal=',')
+# df = pd.read_csv('zamowienia.csv', sep=';')
+#
+# # liczenie ilosci zamowien dla kazdego sprzedawcy
 # grouped_df = df.groupby(['Sprzedawca']).agg({'idZamowienia': "nunique"})
 # grouped_df = grouped_df.reset_index()
 # sprzedawcy = grouped_df['Sprzedawca']
 # zamowienia = grouped_df['idZamowienia']
-# explode = (0, 0.3, 0, 0, 0, 0, 0.2, 0.1, 0)
 # # Explode "odsuwa" fragment wykresu
-# # (musi mieć rozmiar, jak wektor y)
+# # Explode mozna zrobic na rozne sposoby
+# # Najprosciej jest zrobic wektor (musi mieć rozmiar, jak wektor y)
+#
+# explode = (0, 0.3, 0, 0, 0, 0, 0.2, 0.1, 0)
+# # Mozna tez posluzyc sie forem, dla kazdego x, a dopiero potem
+# # okreslic, ktore fragmenty zostana wysuniete i  o ile
+#
+# # explode = [0.0 for n in range(len(sprzedawcy.index))]
+# # explode[np.random.randint(0, len(sprzedawcy.index))] = 0.2
+#
 # wedges, texts, autotexts = plt.pie(zamowienia, labels=sprzedawcy, autopct=lambda pct:
 #                                    "{:.1f}%".format(pct), shadow=True, explode=explode, textprops=dict(color="black"))
 # plt.setp(autotexts, size=11, weight="bold")
 # plt.title("Procentowy udzial kazdego sprzedawcy")
 # plt.show()
-
-
-
+#
+# # liczenie sum utargow dla kazdego sprzedawcy
+# policzone = df.groupby('Sprzedawca')['Utarg'].sum()
+# # explode
+# explode = [0.0 for n in range(len(policzone.index))]
+# explode[np.random.randint(0, len(policzone.index))] = 0.2
+# policzone.plot.pie(subplots=True, autopct='%.2f %%', fontsize=8, explode=explode, shadow=True)
+# plt.title("Procentowy udzial kwot zamowien sprzedawcow")
+# plt.show()
