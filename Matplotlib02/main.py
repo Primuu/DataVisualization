@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 from mpl_toolkits.mplot3d.axes3d import get_test_data
+from matplotlib.colors import LightSource
 
 # WYKRESY 3D
 
@@ -165,7 +166,7 @@ from mpl_toolkits.mplot3d.axes3d import get_test_data
 
 # HOMEWORK 13.05
 
-# 1 BŁAD
+# 1
 
 # fig = plt.figure()
 # ax = fig.gca(projection='3d')
@@ -212,24 +213,57 @@ from mpl_toolkits.mplot3d.axes3d import get_test_data
 # ax.set_zlabel('Z label')
 # plt.show()
 
-# 3 BŁAD / ????
+# 3
 
-# fig = plt.figure()
-# ax = fig.gca(projection='3d')
+# fig = plt.figure(figsize=(16, 9))
 # # generuj dane
 # X = np.arange(-5, 5, 0.25)
 # Y = np.arange(-5, 5, 0.25)
 # X, Y = np.meshgrid(X, Y)
 # R = np.sqrt(X**2 + Y**2)
 # Z = np.sin(R)
-# # rysuj powierzchnie
-# surf = ax.plot_surface(X, Y, Z, cmap=cm.ocean,
-#                        linewidth=0, antialiased=False)
+# # rysuj powierzchnie 1
+# ax = fig.add_subplot(2, 3, 1, projection='3d')
+# surf = ax.plot_surface(X, Y, Z, cmap=cm.hot,
+#                        linewidth=1, antialiased=False)
 # ax.set_zlim(-1.01, 1.01)
+# fig.colorbar(surf, shrink=0.5, aspect=10, orientation='vertical',
+#              pad=0.1)
+# # rysuj powierzchnie 2
+# ax = fig.add_subplot(2, 3, 2, projection='3d')
+# surf1 = ax.plot_surface(X, Y, Z, cmap=cm.Pastel1,
+#                         linewidth=1, antialiased=False)
+# ax.set_zlim(-1.01, 1.01)
+# fig.colorbar(surf1, shrink=0.5, aspect=10, orientation='vertical',
+#              pad=0.1)
+# # rysuj powierzchnie 3
+# ax = fig.add_subplot(2, 3, 3, projection='3d')
+# surf2 = ax.plot_surface(X, Y, Z, cmap=cm.ocean,
+#                         linewidth=1, antialiased=False)
+# ax.set_zlim(-1.01, 1.01)
+# fig.colorbar(surf2, shrink=0.5, aspect=10, orientation='vertical',
+#              pad=0.1)
+# # rysuj powierzchnie 4
+# ax = fig.add_subplot(2, 3, 4, projection='3d')
+# surf3 = ax.plot_surface(X, Y, Z, cmap=cm.Spectral,
+#                         linewidth=1, antialiased=False)
+# ax.set_zlim(-1.01, 1.01)
+# fig.colorbar(surf3, shrink=0.5, aspect=10, orientation='vertical',
+#              pad=0.1)
+# # rysuj powierzchnie 5
+# ax = fig.add_subplot(2, 3, 5, projection='3d')
+# surf4 = ax.plot_surface(X, Y, Z, cmap=cm.PiYG,
+#                         linewidth=1, antialiased=False)
+# ax.set_zlim(-1.01, 1.01)
+# fig.colorbar(surf4, shrink=0.5, aspect=10, orientation='vertical',
+#              pad=0.1)
+#
+#
 # ax.zaxis.set_major_locator(LinearLocator(10))
 # ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
-# # dodanie paska kolorow
-# fig.colorbar(surf, shrink=0.5, aspect=5)
+#
+# # zapis PNG
+# plt.savefig('zad3.png')
 # plt.show()
 
 # 4 MALA ROZNORODNOSC
@@ -250,50 +284,54 @@ from mpl_toolkits.mplot3d.axes3d import get_test_data
 # top = x + y
 # bottom = np.zeros_like(top)
 # width = depth = 1
+# colors = ['r', 'g', 'b', 'm', 'c', 'y']
+# ls = LightSource(azdeg=225.0, altdeg=45.0)
 # ax1.bar3d(x, y, bottom, width, depth, top, color='red', shade=True)
 # ax1.set_title('Wykres 1')
 # ax2.bar3d(x, y, bottom, width, depth, top, color='green', shade=False)
 # ax2.set_title('Wykres 2')
-# ax3.bar3d(x, y, bottom, width, depth, top, color='orange', shade=True)
+# ax3.bar3d(x, y, bottom, width, depth, top, color='orange', shade=True, lightsource=ls)
 # ax3.set_title('Wykres 3')
 # ax4.bar3d(x, y, bottom, width, depth, top, shade=False)
 # ax4.set_title('Wykres 4')
-# ax5.bar3d(x, y, bottom, width, depth, top, shade=True)
+# for i in range(6):
+#     ax5.bar3d(x, y, bottom, width, depth, top, color=colors[i], alpha=0.1)
 # ax5.set_title('Wykres 5')
 # plt.show()
 
 # 5
 
-# fig = plt.figure(figsize=(12, 8))
+# fig = plt.figure(figsize=(16, 9))
 # ax1 = fig.add_subplot(121, projection='3d')
-# ax2 = fig.add_subplot(122, projection='3d')
 # # generuj dane wykresu 1
 # X1 = np.arange(-5, 5, 0.25)
 # Y1 = np.arange(-5, 5, 0.25)
 # X1, Y1 = np.meshgrid(X1, Y1)
 # R1 = np.sqrt(X1**2 + Y1**2)
 # Z1 = np.sin(R1)
+# # rysuj powierzchnie wykresu 1
+# surface1 = ax1.plot_surface(X1, Y1, Z1, cmap=cm.coolwarm,
+#                        linewidth=0, antialiased=False)
+# ax1.set_zlim(-1.01, 1.01)
+# ax1.zaxis.set_major_locator(LinearLocator(10))
+# ax1.zaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+# fig.colorbar(surface1, shrink=0.5, aspect=5)
+# ax1.set_title('Wykres pierwotny')
+#
+# ax2 = fig.add_subplot(122, projection='3d')
 # # generuj dane wykresu 2
 # X2 = np.arange(-5, 5, 0.1)
 # Y2 = np.arange(-5, 5, 0.1)
 # X2, Y2 = np.meshgrid(X2, Y2)
 # R2 = np.sqrt(X2**2 + Y2**2)
 # Z2 = np.sin(R2)
-# # rysuj powierzchnie wykresu 1
-# surface1 = ax1.plot_surface(X1, Y1, Z1, cmap=cm.coolwarm,
-#                        linewidth=0, antialiased=False)
-# ax1.set_zlim(-1.01, 1.01)
-# ax1.zaxis.set_major_locator(LinearLocator(10))
-# ax1.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
-# ax1.set_title('Wykres pierwotny')
 # # rysuj powierzchnie wykresu 2
 # surface2 = ax2.plot_surface(X2, Y2, Z2, cmap=cm.coolwarm,
 #                        linewidth=0, antialiased=True)
 # ax1.set_zlim(-1.01, 1.01)
 # ax1.zaxis.set_major_locator(LinearLocator(10))
-# ax1.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
-# ax1.set_title('Wykres nowy')
-# # dodanie paska kolorow
+# ax1.zaxis.set_major_formatter(FormatStrFormatter('%.2f'))
 # fig.colorbar(surface2, shrink=0.5, aspect=5)
+# ax1.set_title('Wykres nowy')
+# plt.savefig('wykres5.png')
 # plt.show()
-
