@@ -1,0 +1,561 @@
+		PANDAS
+SERIA - jednowymiarowa tablica z etykietami (dowolny typ danyhc)
+DATA FRAME - dwuwymiarowa struktura z etykietami, przechowująca kolumnny z różnymi typami danych
+
+	s = pd.Series([1, 3, 5, np.nan, 6, 8]) 
+
+					0    1.0
+					1    3.0
+					2    5.0
+					3    NaN
+					4    6.0
+					5    8.0
+
+	s = pd.Series([10, 12, 8, 14], index=['Ala', 'Marek', 'Wiesiek', 'Eleonora'])
+	
+					Ala         10
+					Marek       12
+					Wiesiek      8
+					Eleonora    14	
+
+
+	data = {'Kraj': ['Belgia', 'Indie', 'Brazylia'],
+        	'Stolica': ['Bruksela', 'New Delhi', 'Brasilia'],
+        	'Populacja': [11190846, 1303171035, 207847528]}
+	df = pd.DataFrame(data)
+
+			  		     Kraj    Stolica   Populacja
+					0    Belgia   Bruksela    11190846
+					1     Indie  New Delhi  1303171035
+					2  Brazylia   Brasilia   207847528
+
+	daty = pd.date_range('20210324', periods=5)
+	df = pd.DataFrame(np.random.randn(5, 4),
+	                  index=daty, columns=list('ABCD'))
+
+					                   A         B         C         D
+					2021-03-24  0.483051 -0.614376 -1.275544 -0.126381
+					2021-03-25  0.194418  1.626343  0.123712  1.276829
+					2021-03-26 -1.363422 -0.222359  0.901363 -1.070496
+					2021-03-27 -0.247364 -0.819432 -0.857845  0.599831
+					2021-03-28 -1.176490 -1.596162  1.735893 -0.901765
+
+
+
+
+
+Tworzenie serii z datami:
+
+	daty = pd.date_range('20210324', periods=5)       - daty od 2021-03-24 ... 2021-03-28
+	daty = pd.date_range('01/01/2015', periods=1000)  - daty od 2015-01-01 ... 2017-09-26
+
+
+
+
+
+
+
+Tworzenie DATA FRAMEÓW z zewnętrznych źródeł danych i zapis:
+
+	df = pd.read_csv('NAZWA.csv', header=0, sep=";",decimal=',')
+Zapis:
+	df.to_csv('NAZWA.csv', index=False)
+
+Excelowe źródła danych:
+
+	xlsx = pd.ExcelFile('NAZWA.xlsx')
+	df = pd.read_excel(xlsx, header=0)
+Zapis:
+	df.to_excel('NAZWA.xlsx', sheet_name='NAZWA ARKUSZA')
+
+
+
+
+
+POBIERANIE DANYCH ZE STRUKTUR (PDF 3 (2 / 5)):
+
+	seria:
+		s = pd.Series([10, 12, 8, 14], index=['Ala', 'Marek', 'Wiesiek', 'Eleonora'])
+
+pojedynczy element:
+			s['Wiesiek']
+			s.Wiesiek
+
+	data frame:
+			data = {'Kraj': ['Belgia', 'Indie', 'Brazylia'],
+				'Stolica': ['Bruksela', 'New Delhi', 'Brasilia'],
+				'Populacja': [11190846, 1303171035, 207847528]}
+
+
+pojedynczy wiersz (tak jak przy cięciu tablic - oparte na indeksach):
+
+			df[0:1]	
+						     Kraj   Stolica  Populacja
+						0  Belgia  Bruksela   11190846
+
+kolumna (po etykiecie):
+
+			df['Populacja']
+			df.Populacja
+
+pojedynczy element:
+
+			df.iloc[[0][0]]
+
+						Kraj           Belgia
+						Stolica      Bruksela
+						Populacja    11190846
+
+			df.loc[[0], ["Kraj"]]
+
+						    	     Kraj
+							0  Belgia
+
+			df.at[0, "Kraj"]
+
+							Belgia
+
+pobieranie losowe (PDF 3 (3 / 5)):
+
+n losowych elementów ( n = 1 ):
+
+			df.sample(n)
+							     Kraj   Stolica  Populacja
+							0  Belgia  Bruksela   11190846
+
+ilość elementów procentowo (!!!uwaga na zaokrąglenie!!!):
+			
+			print(df.sample(frac=0.5))
+
+
+jeżeli potrzeba więcej próbek niż znajduje się w zbiorze
+i dopuszczamy duplikaty, możemy użyć parametru replace,
+który będzie losował z powtórzeniami 
+
+			df.sample(n=10, replace=True)
+
+
+WYŚWIETLANIE DANEJ ILOŚĆ ELEMENTÓW OD POCZĄTKU / KOŃCA KOLEKCJI
+STATYSTYKA KOLEKCJI / TRANSPOZYCJA  (PDF 3 (3 / 5))
+
+
+
+
+
+
+
+FILTROWANIE / GRUPOWANIE I AGREGOWANIE DANYCH (PDF 3 (4 / 5))
+
+
+
+DODAWANIE, USUWANIE I ZMIENIANIE DANYH (PDF 3 (4 / 5))
+
+
+
+DODAWANIE KOLUMN / SORTOWANIE / GRUPOWANIE / AGREGOWANIE / TABELE PRZESTAWNE (PDF 3 (5 / 5))
+
+
+
+
+
+
+
+
+
+
+
+WYKRESY
+
+		DANE
+		DANE.PLOT
+
+PANDAS - WYK1 - LINIOWY
+
+
+
+# SZEREG CZASOWY DANYCH, radnom + data_range
+ts = pd.Series(np.random.randn(2300), index=pd.date_range('1/1/2015', periods=2300))
+print(ts)
+
+# Funkcja generująca sumę kolejnych elementów - wykres
+ts = ts.cumsum()
+print(ts)
+ts.plot()
+plt.show()
+
+
+
+PANDAS - WYK2 - SŁUPKOWY
+
+
+
+# WYKRES KOLUMNOWY
+data = {'Kraj': ['Belgia', 'Indie', 'Brazylia', 'Polska'],
+        'Stolica': ['Bruksela', 'New Delhi', 'Brasilia', 'Warszawa'],
+        'Kontynent': ['Europa', 'Azja', 'Ameryka Pd', 'Europa'],
+        'Populacja': [11904265, 1246950324, 267695324, 37124245]}
+df = pd.DataFrame(data)
+print(df)
+
+grupa = df.groupby(['Kontynent']).agg({'Populacja': ['sum']})
+print(grupa)
+
+wykres = grupa.plot.bar()
+wykres.set_ylabel("Mld")
+wykres.set_xlabel("Kontynent")
+wykres.legend()
+plt.title("Populacja z podzialem na kontynenty")
+# zmiana kierunku tekstu etykiet słupkow
+plt.xticks(rotation=0)
+plt.savefig('wykres.png')
+plt.show()
+
+
+
+PANDAS - WYK3 - KOŁOWY
+
+
+
+# wczytanie danych z plikow i wyswietlenie zgrupowanych rzeczy
+df = pd.read_csv('dane.csv', header=0, sep=";", decimal=".")
+print(df)
+grupa = df.groupby(['Imię i nazwisko']).agg({'Wartość zamówienia': ['sum']})
+# wykres kolowy z wartosciami procentowymi sformatowanymi z dokladoscia do 2 miejsc po przecinku
+# figsize ustawia wielkosc wykresu w calach, domyslnie 6,4 i 4,8
+wykres = grupa.plot.pie(subplots=True, autopct='%.2f %%', fontsize=20, figsize=(6, 6), legend=(0, 0))
+plt.legend(loc="lower right")
+plt.title('Suma zamowienia dla sprzedawcy')
+plt.show()
+
+
+
+PANDAS - WY4 - ŚREDNIEJ KROCZĄCEJ (zmodyfikowany liniowy)
+
+
+
+ts = pd.Series(np.random.randn(2300), index=pd.date_range('1/1/2015', periods=2300))
+print(ts)
+
+ts = ts.cumsum()
+df = pd.DataFrame(ts)
+# dodanie nowej kolumny i wykorzystanie
+# funkcji rolling do stworzenia kolejnych wartosci
+# sredniej kroczacej
+df['MA'] = df.rolling(window=50).mean()
+df.plot()
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		PRACE DOMOWE + ROZWIĄZANIA
+			LISTA 3
+Zadanie 1 
+Wczytaj do DataFrame arkusz z narodzinami dzieci w Polsce
+dostępny w pliku /datasets/imiona.xlsx 
+
+
+
+	zad1 = pd.ExcelFile('imiona.xlsx')
+	df = pd.read_excel(zad1, header=0)
+
+
+		Rok	Imie	Liczba	Plec
+		2000	JAKUB	14497	M
+		2000	MATEUSZ	11454	M
+		2000	KACPER	8898	M
+		2000	MICHAŁ	8498	M
+		2000	PATRYK	7743	M
+		2000	DAWID	7063	M
+		2000	KAMIL	6842	M
+		2000	PIOTR	5608	M
+		2000	SZYMON	5486	M
+
+
+
+Zadanie 2 
+Z danych z zadania 1 wyświetl (korzystając w miarę możliwości z funkcji biblioteki Pandas): 
+#2.1
+tylko te rekordy gdzie liczba nadanych imion była mniejsza niż 1000 w danym roku 
+
+
+
+	print(df[(df['Liczba'] < 1000)])
+
+
+
+#2.2
+tylko rekordy gdzie nadane imię jest takie jak Twoje 
+
+
+
+	print(df[(df['Imie'] == 'ADAM')])
+
+
+
+#2.3
+sumę wszystkich urodzonych dzieci w całym danym okresie
+
+
+
+	print(sum(df.Liczba))
+	print(df.agg({'Liczba': ['sum']})) 
+
+
+
+#2.4
+sumę dzieci urodzonych w latach 2005-2010
+
+
+
+	print(sum(df.Liczba[((df['Rok'] >= 2005) & (df['Rok'] <= 2010))]))
+	print(df[(df.Rok > 2004) & (df.Rok < 2011 )].agg({'Liczba': ['sum']}))
+
+
+
+#2.5
+sumę urodzonych chłopców w 2000 roku
+
+
+
+	print(sum(df.Liczba[((df['Rok'] == 2000) & (df['Plec'] == 'M'))]))
+	print(df[(df.Plec == 'M') & (df.Rok == 2000)].agg({'Liczba':['sum']}))
+
+
+
+#2.6
+najbardziej popularne imię dziewczynki i chłopca w danym roku ( czyli po 2 rekordy na rok)
+
+
+
+	for x in range(2000, 2018, 1):
+	    print("Rok ", x)
+	    print(df['Imie'][df['Liczba'] == max(df['Liczba'][((df['Rok'] == x) & (df['Plec'] == 'K'))])])
+	    print(df['Imie'][df['Liczba'] == max(df['Liczba'][((df['Rok'] == x) & (df['Plec'] == 'M'))])])
+
+
+
+	print(df.sort_values('Liczba', ascending=False).groupby(['Rok','Plec']).nth(0))
+	new_df = df.sort_values('Liczba', ascending=False).groupby(['Rok', 'Plec'])
+	for index, group in enumerate(new_df, start=1):
+	    print(f"{index} {group[0]}")
+	    print(f" {group[1].iloc[0]['Imie']}", end='')
+	    print(f" {group[1].iloc[0]['Liczba']}")
+
+
+
+#2.7
+najbardziej popularne imię dziewczynki i chłopca w całym danym okresie, 
+
+
+
+	print("Chlopiec")
+	print(df[df['Plec'] == 'M'].groupby(['Imie']).agg({'Liczba':['sum']}).sort_values(('Liczba','sum'),
+                                                                                      ascending=False).iloc[0])
+	print("Dziewczynka")
+	print(df[df['Plec'] == 'K'].groupby(['Imie']).agg({'Liczba': ['sum']}).sort_values(('Liczba', 'sum'),
+                                                                                       ascending=False).iloc[0])
+
+
+
+Zadanie 3 
+Wczytaj plik /datasets/zamowieniana.csv a następnie wyświetl:
+
+
+
+	 dfz = pd.read_csv('zamowienia.csv', header=0, sep=";",
+	                   decimal='.')
+
+
+			Kraj	Sprzedawca	Data zamowienia	idZamowienia	Utarg
+			Polska	Kowalski	2003-07-16	10248		440.00
+			Polska	Sowiński	2003-07-10	10249		1863.40
+			Niemcy	Peacock		2003-07-12	10250		1552.60
+			Niemcy	Leverling	2003-07-15	10251		654.06
+			Niemcy	Peacock		2003-07-11	10252		3597.90
+			Niemcy	Leverling	2003-07-16	10253		1444.80
+			Polska	Kowalski	2003-07-23	10254		556.62
+			Polska	Dudek		2003-07-15	10255		2490.50
+			Niemcy	Leverling	2003-07-17	10256		517.80
+			Niemcy	Peacock		2003-07-22	10257		1119.90
+			Niemcy	Davolio		2003-07-23	10258		1614.88
+			Niemcy	Peacock		2003-07-25	10259		100.80
+
+
+
+#3.1
+listę unikalnych nazwisk sprzedawców (przetwarzając zwróconą pojedynczą kolumnę z DataFrame) 
+
+
+
+	print(pd.unique(dfz.Sprzedawca))
+
+
+
+#3.2
+5 najwyższych wartości zamówień
+
+
+
+	print(dfz.sort_values(by='Utarg', ascending=False)['Utarg'][0:5])
+
+
+
+#3.3
+ilość zamówień złożonych przez każdego sprzedawcę
+
+
+
+	print(dfz.groupby(['Sprzedawca']).size())
+	print(pd.value_counts(dfz.Sprzedawca))
+
+
+
+#3.4
+sumę zamówień dla każdego kraju
+
+
+
+	print(dfz.groupby(['Kraj']).agg({'Utarg':['sum']}))
+
+
+
+#3.5
+sumę zamówień dla roku 2005, dla sprzedawców z Polski
+
+
+
+	print(dfz[((dfz['Data zamowienia'] >= '2005-01-01') & (dfz['Data zamowienia'] <= '2005-12-31') &
+	              (dfz['Kraj'] == 'Polska'))].agg({'Utarg':['sum']}))
+
+
+
+#3.6
+średnią kwotę zamówienia w 2004 roku
+
+
+
+	print(dfz[((dfz['Data zamowienia'].str[:4] == '2004'))]['Utarg'].mean())
+
+
+
+#3.7
+zapisz dane za 2004 rok do pliku zamówienia_2004.csv
+a dane za 2005 do pliku zamówienia_2005.csv 
+
+
+
+	rok_2004 = dfz[((dfz['Data zamowienia'].str[:4] == '2004'))]
+	rok_2005 = dfz[((dfz['Data zamowienia'].str[:4] == '2005'))]
+	rok_2004.to_csv("zamowienia_2004.csv", sep=';', index=False)
+	rok_2005.to_csv("zamowienia_2005.csv", sep=';', index=False)
+
+
+
+			LISTA 4
+
+	task1 = pd.ExcelFile('imiona.xlsx')
+	df = pd.read_excel(task1, header=0)
+
+	        Rok      Imie  Liczba Plec
+	0      2000     JAKUB   14497    M
+	1      2000   MATEUSZ   11454    M
+	2      2000    KACPER    8898    M
+	3      2000    MICHAŁ    8498    M
+	4      2000    PATRYK    7743    M
+	...     ...       ...     ...  ...
+	16412  2017      TINA       5    K
+	16413  2017    VANESA       5    K
+	16414  2017  VERONIKA       5    K
+	16415  2017     WIERA       5    K
+	16416  2017   WIOLETA       5    K
+
+Zadanie 1 
+Stwórz wykres liniowy, który wyświetli liczbę urodzonych dzieci dla każdego roku. (imiona.xlsx)
+
+
+
+	df['Rok'] = df['Rok'].astype(str)
+	group = df.groupby(['Rok']).agg({'Liczba': ['sum']})
+	chart = group.plot()
+	chart.set_ylabel("Liczba urodzonych dzieci")
+	chart.set_xlabel("Rok")
+	chart.legend()
+	plt.title("Liczba urodzonych dzieci w danym roku")
+	plt.show()
+
+
+
+Zadanie 2 
+Stwórz wykres słupkowy, który wyświetli liczbę urodzonych chłopców i dziewczynek z całego zbioru.
+
+
+
+	group = df.groupby(['Plec']).agg({'Liczba': ['sum']})
+	chart = group.plot.bar()
+	chart.set_ylabel(u"Liczba urodzeń")
+	chart.set_xlabel(u"Płeć")
+	chart.legend()
+	plt.title(u"Liczba urodzonych chłopców i dziewczynek")
+	plt.xticks(rotation=0)
+	plt.gcf().axes[0].yaxis.get_major_formatter().set_scientific(False)
+	plt.show()
+
+Zadanie 3 
+Wykres kołowy z wartościami % ukazującymi ilość urodzonych
+chłopców i dziewczynek w ostatnich 5 latach z datasetu.
+
+
+
+	df = df[(df['Rok'] >= 2013) & (df['Rok'] <= 2017)]
+	group = df.groupby(['Plec']).agg({'Liczba': ['sum']})
+	chart = group.plot.pie(subplots=True, autopct='%.2f %%',
+	                       fontsize=20, figsize=(6, 6), legend=(0, 0))
+	plt.legend(loc="lower right")
+	plt.title(u"Stosunek urodzeń chłopców i dziewczynek w ostatnich 5 latach")
+	plt.show()
+
+
+
+Zadanie 4 
+Wyświetl na pomocą wykresu słupkowego ilość złożonych zamówień
+przez poszczególnych sprzedawców (zbiór danych zamówienia.csv). 
+
+
+	dfz = pd.read_csv('zamowienia.csv', header=0, sep=";",
+	                  decimal='.')
+
+		       Kraj Sprzedawca Data zamowienia  idZamowienia    Utarg
+		0    Polska   Kowalski      2003-07-16         10248   440.00
+		1    Polska   Sowiński      2003-07-10         10249  1863.40
+		2    Niemcy    Peacock      2003-07-12         10250  1552.60
+		3    Niemcy  Leverling      2003-07-15         10251   654.06
+		4    Niemcy    Peacock      2003-07-11         10252  3597.90
+		..      ...        ...             ...           ...      ...
+		794  Polska       King      2005-04-30         11048   525.00
+		795  Niemcy  Leverling      2005-05-01         11052  1332.00
+		796  Niemcy     Fuller      2005-04-29         11053  3055.00
+		797  Niemcy   Callahan      2005-05-01         11056  3740.00
+		798  Niemcy  Leverling      2005-05-01         11057    45.00
+
+
+	group = dfz.groupby(['Sprzedawca']).agg({'idZamowienia': ['count']})
+	chart = group.plot.bar(figsize=(8, 8))
+	chart.set_ylabel(u"Ilość złożonych zamówień")
+	chart.set_xlabel(u"Sprzedawca")
+	chart.legend()
+	plt.title(u"Ilość złożonych zamówień przez poszczególnych sprzedawców")
+	plt.xticks(rotation=0)
+	plt.show()
+

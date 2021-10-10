@@ -1,0 +1,473 @@
+		NUMPY
+
+
+(Typy, inicjalizacje tablic z konkretnym typem danych, zapisanie kopii z innym typem danych,
+ rozmiar, wymiary tablicy - PDF 1 (4 / 7))
+TABLICE ###### [0 1] (można dodawać, mnożyć, odejmować, dzielić)
+
+	a = np.arange(2)
+	=
+	a = np.array([0, 1])
+
+Tablica wielowymiarowa (parametr przekazywany do funkcji array - obiekt - konwertowany na tablicę
+				np. pythonowa lista)
+
+	b = np.array([np.arange(2), np.arange(2)])
+
+Macier zerowa / jedynkowa / pusta(losowe wartości)
+
+	zera = np.zeros((5, 5))    # 5x5
+	jedynki = np.ones((4, 4))  # 4x4
+	pusta = np.empty((2, 2))   # 2x2
+
+Inne przykłady macierz (0 -> 1 -> 2 ... w wierszach lub kolumnach - funkcja indices(())/mgrid[:,:],
+ macierze diagonalne, tworzenie tablicy jednowymiarowej z dowolnego obiektu iterowalnego
+ PDF 1 (5 / 7))
+
+
+
+
+Funkcje losujące:
+
+	np.random.randn(5, 4)		- zwraca macierz 4x5
+	np.random.randint(0, 10, 50)	- zwraca 50 liczb w zakresie 0, 10
+
+
+
+Funkcja arange / linspace może tworzyć ciągi liczb zmienno przecinowych
+
+	(od 1 do 2 z przeskokiem 0.1)
+	liczby = np.arange(1, 2, 0.1)
+
+	(od 1 do 2 - dzielone na 5 części)
+	liczby_lin = np.linspace(1, 2, 5)
+
+
+
+
+Można tworzyć tablicę znaków ze stringa (frombuffer PDF 1 (6 / 7))
+
+
+
+
+Tablice można ciąć: (PDF 1 (7 / 7))
+
+	a = np.arange(10)          = [0 1 2 3 4 5 6 7 8 9]
+	s = slice(2, 7, 2) -> a[s] = [2 4 6]
+	s = range(2, 7, 2) -> a[s] = [2 4 6]
+	a[2: 7: 2]                 = [2 4 6]
+	a[1:]                      = [1 2 3 4 5 6 7 8 9]
+	a[2:5]                     = [2 3 4]
+
+Podobnie macierze:
+
+	mat = np.arange(25)   -(zmiana kształtu)->   mat = mat.reshape((5,5))
+			[[ 0  1  2  3  4]
+ 			 [ 5  6  7  8  9]
+ 			 [10 11 12 13 14]
+ 			 [15 16 17 18 19]
+			 [20 21 22 23 24]]
+	mat[1:]      =
+			[[ 5  6  7  8  9]
+			 [10 11 12 13 14]
+			 [15 16 17 18 19]
+			 [20 21 22 23 24]]
+	mat[:, 1] / mat[..., 1]) =
+			[ 1  6 11 16 21]
+	mat[:, 1:2]  =
+			[[ 1]
+ 			 [ 6]
+ 			 [11]
+			 [16]
+ 			 [21]]
+	mat[:, -1:]  =
+			[[ 4]
+			 [ 9]
+			 [14]
+ 			 [19]
+			 [24]]
+	mat[2:6, 1:3]=                # 2 i 3 kolumna dla 3,4,5 wierszy
+			[[11 12]
+ 			 [16 17]
+			 [21 22]]
+	mat[:, range(2, 6, 2)]=       # 3 i 5 kolumna
+			[[ 2  4]
+			 [ 7  9]
+			 [12 14]
+			 [17 19]
+			 [22 24]]
+
+
+
+
+Operacje na osiach:
+	#suma całej macierzy
+					a.sum()
+	#suma każdej z kolumn
+					a.sum(axis=0)
+	#minimum każdego rzędu
+					a.min(axis=1)
+	#skummulowana suma dla rzędu
+					a.cumsum(axis=1)
+							[[ 0  1  2  3]
+							 [ 4  5  6  7]
+							 [ 8  9 10 11]]
+							       ||
+							[[ 0  1  3  6]
+							 [ 4  9 15 22]
+							 [ 8 17 27 38]]
+	#iloczyn macierzowy
+				a.dot(b)
+				np.dot(a,b)
+
+	#mnożenie *zespolone (PDF 2 (2 / 4))		
+	#funkcje uniwersalne (PDF 2 (3 / 4))
+	#modyfikacja kształtów macierz (PDF 2 (4 / 4))
+
+
+
+
+
+
+
+
+
+
+
+
+		PRACE DOMOWE + ROZWIĄZANIA
+			LISTA 1
+
+Zad1.  
+Za pomocą funkcji arange stwórz tablicę numpy
+składającą się z 20 kolejnych wielokrotności liczby 4. 
+
+
+
+	task_1 = np.arange(4, 81, 4)
+
+
+
+Zad2. 
+Stwórz listę składającą się z wartości zmiennoprzecinkowych
+a następnie zapisz do innej zmiennej jej kopię przekonwertowaną na typ int32
+
+
+
+	task_2 = np.arange(5, dtype='float')
+	task2_1 = task_2.astype('int32')
+
+
+
+Zad3. 
+Napisz funkcję, która będzie: 
+Przyjmowała jeden parametr ‘n’ w postaci liczby całkowitej 
+Zwracała tablicę Numpy o wymiarach n*n kolejnych potęg liczby 2 
+
+
+
+	def foo3 (n):
+	    tablica = np.zeros((n, n), dtype='int32')
+	    i = 0
+	    for x in range(n):
+	        for y in range(n):
+	            tablica[x][y] = 2 ** i
+	            i += 1
+	    return tablica
+
+
+	print("\n", foo3(3))
+
+
+
+Zad4. 
+Napisz funkcję, która będzie przyjmowała 2 parametry:
+liczbę, która będzie podstawą operacji potęgowania
+oraz ilość kolejnych potęg do wygenerowania.
+Korzystając z funkcji logspace generuj tablicę jednowymiarową
+kolejnych potęg podanej liczby, np. generuj(2,4) -> [2,4,8,16] 
+
+
+
+	def foo4 (base1, number):
+	    return np.logspace(1, number, number, base=base1)
+
+
+	print(foo4(2, 4))
+
+
+
+Zad5.  
+Napisz funkcję, która: 
+Na wejściu przyjmuje jeden parametr określający długość wektora  
+Na podstawie parametru generuj wektor, ale w kolejności odwróconej 
+Generuj macierz diagonalną z w/w wektorem na przekątnej oddalonej
+o 2 w górę od głównej przekątnej macierzy 
+
+
+
+	def foo5 (length):
+	    return np.diag(range(length, 0, -1), 2)
+
+
+	print("\n", foo5(5))
+
+
+
+Zad6. 
+Stwórz skrypt który na wyjściu wyświetli macierz numpy
+(tablica wielowymiarowa) w postaci wykreślanki, gdzie
+jedno słowo będzie wypisane w kolumnie, jedno w wierszu
+i jedno po ukosie. Jedno z tych słów powinno być wypisane od prawej do lewej. 
+
+
+
+	puzzle = np.array([['K', 'A', 'J', 'A', 'K'],
+	                   ['A', 'A', 'q', 'w', 'e'],
+	                   ['J', 'r', 'J', 't', 'y'],
+	                   ['A', 'u', 'i', 'A', 'o'],
+	                   ['K', 'p', 'a', 's', 'K']])
+
+	print(puzzle)
+
+
+
+Zad7. 
+Napisz funkcję, która wygeneruje macierz wielowymiarową postaci: 
+  [[2 4 6] 
+   [4 2 4] 
+   [6 4 2]] 
+Przy założeniach: 
+funkcja przyjmuje parametr n, który określa wymiary macierzy jako n*n
+i umieszcza wielokrotność liczby 2 na kolejnych jej przekątnych rozchodzących
+się od głównej przekątnej. 
+
+
+
+	def foo7 (n):
+	    array = np.diag([2 for _ in range(n)])
+	    for index in range(1, n):
+	        vec = [2 + (2 * index) for _ in range(n - index)]
+	        array += np.diag(vec, index)
+	        array += np.diag(vec, -index)
+	    return array
+
+
+	print(foo7(10))
+
+
+
+Zadanie 8 
+Napisz funkcję, która: 
+jako parametr wejściowy będzie przyjmowała tablicę wielowymiarową
+numpy oraz parametr ‘kierunek’, parametr kierunek określa czy tablica
+wejściowa będzie dzielona w pionie czy poziomie 
+funkcja dzieli tablicę wejściową na pół (napisz warunek, który wyświetli komunikat,
+że ilość wierszy lub kolumn, w zależności od kierunku podziału, nie pozwala na operację) 
+
+
+
+	def foo8 (tab, kierunek = 'poziomo'):
+	    print(tab)
+	    if kierunek == 'poziomo':
+	        if tab.shape[0] % 2 != 0:
+	            print("Tablica posiada nieparzysta liczbe wierszy.")
+	            return
+	        p1 = tab[0: int(tab.shape[0]/2),: ]
+	        p2 = tab[int(tab.shape[0]/2):, :]
+	        print("czesc 1")
+	        print(p1)
+	        print("czesc 2")
+	        print(p2)
+	    elif kierunek == "pionow":
+	        if tab.shape[1] % 2 != 0:
+	            print("Tablica posiada nieparzysta liczbe kolumn.")
+	            return
+	        p1 = tab[:, 0:int(tab.shape[1] / 2)]
+	        p2 = tab[:, int(tab.shape[1] / 2):]
+	        print("czesc 1")
+	        print(p1)
+	        print("czesc 2")
+	        print(p2)
+
+
+	foo8(np.arange(36).reshape((6, 6)), kierunek='pionowo')
+
+
+
+Zadanie 9 
+Wykorzystaj poznane na zajęciach funkcje biblioteki Numpy i stwórz macierz 5x5,
+która będzie zawierała kolejne wartości ciągu arytmetycznego. 
+
+
+
+	# arithmetic sequence with a difference of 5
+	task_9 = np.arange(0, 121, 5)
+	task_9 = task_9.reshape((5, 5))
+
+	print(task_9)
+
+
+
+			LISTA 2
+Zadanie 1 
+Utwórz dwie macierze 1x3 różnych wartości a następnie wykonaj operację mnożenia. 
+
+
+
+	a1 = np.arange(3)
+	a2 = np.arange(3, 6)
+	print(a1 * a2)
+
+
+
+Zadanie 2 
+Utwórz macierz 3x3 oraz 4x4 i znajdź najniższe wartości dla każdej kolumny i każdego rzędu. 
+
+
+
+	b1 = np.arange(9).reshape(3, 3)
+	b2 = np.arange(9, 25).reshape(4, 4)
+	# minimum każdego rzędu
+	print(b1.min(axis=1))
+	print(b2.min(axis=1))
+	# minimum każdej kolumny
+	print(b1.min(axis=0))
+	print(b2.min(axis=0))
+
+
+
+Zadanie 3 
+Wykorzystaj macierze z zadania pierwszego i wykonaj iloczyn macierzy. 
+
+
+
+	print(a1.dot(a2))
+
+
+
+Zadanie 4 
+Utwórz dwie macierze 1x3 gdzie pierwsza z nich będzie zawierała liczby całkowite,
+a druga liczby rzeczywiste. Następnie wykonaj na nich operację mnożenia. 
+
+
+
+	c1 = np.ones(3, dtype='int32')
+	c2 = np.linspace(0, np.pi, 3)
+	print(c1 * c2)
+
+
+
+Zadanie 5 
+Utwórz macierz 2x3 różnych wartości a następnie wylicz sinus
+dla każdej z jej wartości i zapisz do zmiennej “a”. 
+
+
+
+	d5 = np.arange(4, 10).reshape(2, 3)
+	zad5 = np.sin(d5)
+	print(zad5)
+
+
+
+Zadanie 6 
+Utwórz nową macierz 2x3 różnych wartości a następnie wylicz cosinus
+dla każdej z jej wartości i zapisz do zmiennej “b”. 
+
+
+
+	d6 = np.arange(9, 15).reshape(2, 3)
+	zad6 = np.cos(d6)
+	print(zad6)
+
+
+
+Zadanie 7 
+Wykonaj funkcję dodawania obu macierzy zapisanych wcześniej do zmiennych a i b. 
+
+
+
+	e = np.add(zad5, zad6)
+	print(e)
+
+
+
+Zadanie 8 
+Wygeneruj macierz 3x3 i wyświetl w pętli każdy z rzędów. 
+
+
+
+	zad8 = np.arange(9).reshape(3, 3)
+	for x in zad8:
+	    print(x)
+
+
+
+Zadanie 9 
+Wygeneruj macierz 3x3 i wyświetl w pętli każdy element korzystając
+z opcji “spłaszczenia” macierzy. (użyj funkcji flat()) 
+
+
+
+	zad9 = np.arange(9, 18).reshape(3, 3)
+	for x in zad9.flat:
+	    print(x)
+
+
+
+Zadanie 10 
+Wygeneruj macierz 9x9 a następnie zmień jej kształt. Jakie mamy możliwości i dlaczego? 
+
+
+
+	zad10 = np.arange(81)
+	print(zad10)
+	# Reshape :
+	a = zad10.reshape(9, 9)
+	# W pętli -> flat, spłaszczenie do 1 kolumny:
+	for x in zad10.flat:
+	    print(x)
+	# Ravel
+	zad10 = zad10.ravel()
+	print(zad10)
+	# Transpozycja
+	zad10 = zad10.reshape(9, 9)
+	zad10 = zad10.T
+	print(zad10)
+
+
+
+#Zad10
+# macierz = np.arange(0,81,1).reshape(9,9)
+# print(macierz)
+#
+# macierz_1 = macierz.reshape(3,27)
+# print(macierz_1)
+# macierz_2 = macierz.reshape(27,3)
+# print(macierz_2)
+# macierz_3 = macierz.reshape(81,1)
+# print(macierz_3)
+# macierz_4 = macierz.ravel()
+# print(macierz_4)
+
+
+
+Zadanie 11 
+Wygeneruj macierz płaską (wektor) i przekształć ją na macierz 3x4.
+Wygeneruj w ten sposób jeszcze kombinacje 4x3 i 2x6. Spłaszcz każdą z nich i wyświetl wyniki.
+Czy są identyczne? 
+
+
+
+	zad11 = np.arange(12).reshape(3, 4)
+	print(zad11)
+	zad11 = zad11.ravel()
+	print(zad11)
+	zad11 = zad11.reshape(4, 3)
+	print(zad11)
+	zad11 = zad11.ravel()
+	print(zad11)
+	zad11 = zad11.reshape(2, 6)
+	zad11 = zad11.ravel()
+	print(zad11)
+

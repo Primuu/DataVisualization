@@ -1,0 +1,21 @@
+Numpy 1.19.0
+Pandas 1.2.1
+Matplotlib 3.3.3
+Seaborn 0.11.1
+xlrd
+openpyxl
+
+
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import xlrd
+import openpyxl
+import seaborn as sns
+
+# DO 3D
+from matplotlib import cm
+from matplotlib.ticker import LinearLocator, FormatStrFormatter
+from mpl_toolkits.mplot3d.axes3d import get_test_data
+from matplotlib.colors import LightSource
